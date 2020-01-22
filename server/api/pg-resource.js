@@ -1,10 +1,3 @@
-function tagsQueryString(tags, itemid, result) {
-  for (i = tags.length; i > 0; i--) {
-    result += `($${i}, ${itemid}),`;
-  }
-  return result.slice(0, -1) + ';';
-}
-
 module.exports = postgres => {
   return {
     async createUser({ fullname, email, password }) {
@@ -173,11 +166,26 @@ module.exports = postgres => {
               });
               const newItemQuery = await postgres.query(newItem);
 
+              //how to loop through tags for one new item
+
+              //iterated through an undetermined amount of tags and concatenates into a string to use in query
+              function tagsQueryString(tags, itemid, result) {
+                for (i = tags.length; i > 0; i--) {
+                  result += `($${i}, ${itemid}),`;
+                }
+                return result.slice(0, -1) + ';';
+              }
+
               const newTag = await postgres.query({
-                text: `INSERT INTO itemtags (itemid,tagid) VALUES ($1, $2) RETURNING *;`,
-                value: [newItemQuery.rows[0].id, tagid]
+                text: `INSERT INTO itemtags (itemid,tagid) VALUES ${tagsQueryStrings(
+                  [...tags],
+                  itemid,
+                  results
+                )}`,
+                value: tags.map(tag => tag.id)
               });
               const newTagQuery = await postgres.query(newTag);
+
               // Commit the entire transaction!
               client.query('COMMIT', err => {
                 if (err) {
