@@ -2,28 +2,22 @@ const { ApolloError } = require('apollo-server');
 
 const relationResolvers = {
   User: {
-    /**
-     *  @TODO: Advanced resolvers
-     *
-     *  The User GraphQL type has two fields that are not present in the
-     *  user table in Postgres: items and borrowed.
-     *
-     *  According to our GraphQL schema, these fields should return a list of
-     *  Items (GraphQL type) the user has lent (items) and borrowed (borrowed).
-     *
-     */
-    // @TODO: Uncomment these lines after you define the User type with these fields
-    // items() {
-    //   // @TODO: Replace this mock return statement with the correct items from Postgres
-    //   return []
-    //   // -------------------------------
-    // },
-    // borrowed() {
-    //   // @TODO: Replace this mock return statement with the correct items from Postgres
-    //   return []
-    //   // -------------------------------
-    // }
-    // -------------------------------
+    async items({ id }, args, { pgResource }, info) {
+      try {
+        const items = await pgResource.getItemsForUser(id);
+        return items;
+      } catch (e) {
+        return new ApolloError(e);
+      }
+    },
+    async borrowed({ id }, args, { pgResource }, info) {
+      try {
+        const items = await pgResource.getBorrowedItemsForUser(id);
+        return items;
+      } catch (e) {
+        return new ApolloError(e);
+      }
+    }
   },
 
   Item: {
@@ -44,7 +38,6 @@ const relationResolvers = {
       }
     },
     async borrower({ borrowerid }, args, { pgResource }, info) {
-      console.log(borrowerid);
       try {
         const tags = await pgResource.getUserById(borrowerid);
         return tags;
