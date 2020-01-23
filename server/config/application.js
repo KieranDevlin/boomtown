@@ -6,7 +6,7 @@ const path = require('path');
 
 module.exports = app => {
   /**
-   *  @TODO: Configuration Variables
+   *   NOTES ON APP
    *
    *  As much as possible, configuration information should be defined in a single location, this file.
    *

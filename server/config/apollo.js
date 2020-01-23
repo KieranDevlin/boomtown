@@ -8,7 +8,7 @@ module.exports = ({ app, pgResource }) => {
   resolvers = resolvers(app);
 
   /*
-   * https://www.apollographql.com/docs/apollo-server/v2/api/graphql-tools.html#makeExecutableSchema
+   * notes on gql tools - https://www.apollographql.com/docs/apollo-server/v2/api/graphql-tools.html#makeExecutableSchema
    */
 
   const schema = makeExecutableSchema({
