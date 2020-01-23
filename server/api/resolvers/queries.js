@@ -1,4 +1,4 @@
-const { ApolloError } = require("apollo-server");
+const { ApolloError } = require('apollo-server');
 
 const queryResolvers = app => ({
   viewer(parent, args, { user }, info) {
@@ -25,14 +25,22 @@ const queryResolvers = app => ({
       throw new ApolloError(e);
     }
   },
-  async items() {
-    // @TODO: Replace this mock return statement with the correct items from Postgres
-    return [];
-    // -------------------------------
+  async items(parent, { filter }, { pgResource }, info) {
+    try {
+      const item = await pgResource.getItems(filter);
+      return item;
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   },
-  async tags() {
-    // @TODO: Replace this mock return statement with the correct tags from Postgres
-    return [];
-    // -------------------------------
-  },
+  async tags(parent, { id }, args, { pgResource }, info) {
+    try {
+      const tags = await pgResource.getTagsforItem(id);
+      return tags;
+    } catch (e) {
+      return new ApolloError(e);
+    }
+  }
 });
+
+module.exports = queryResolvers;

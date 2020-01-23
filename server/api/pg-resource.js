@@ -1,3 +1,10 @@
+//iterated through an undetermined amount of tags and concatenates into a string to use in query
+function tagsQueryString(tags, itemid, result) {
+  for (i = tags.length; i > 0; i--) {
+    result += `($${i}, ${itemid}),`;
+  }
+  return result.slice(0, -1) + ';';
+}
 module.exports = postgres => {
   return {
     async createUser({ fullname, email, password }) {
@@ -85,18 +92,6 @@ module.exports = postgres => {
     },
     async getItems(idToOmit) {
       const items = await postgres.query({
-        /**
-         *  @TODO:
-         *
-         *  idToOmit = ownerId
-         *
-         *  Get all Items. If the idToOmit parameter has a value,
-         *  the query should only return Items were the ownerid !== idToOmit
-         *
-         *  Hint: You'll need to use a conditional AND/WHERE clause
-         *  to your query text using string interpolation
-         */
-
         text: `SELECT * FROM items WHERE ownerid != $1`,
         values: idToOmit ? [idToOmit] : []
       });
@@ -117,7 +112,7 @@ module.exports = postgres => {
       return items.rows;
     },
     async getTags() {
-      const tags = await postgres.query(/* @TODO: Basic queries */);
+      const tags = await postgres.query();
       return tags.rows;
     },
     async getTagsForItem(id) {
@@ -165,22 +160,14 @@ module.exports = postgres => {
                 value: [title, description, user.id]
               });
               const newItemQuery = await postgres.query(newItem);
-
-              //how to loop through tags for one new item
-
-              //iterated through an undetermined amount of tags and concatenates into a string to use in query
-              function tagsQueryString(tags, itemid, result) {
-                for (i = tags.length; i > 0; i--) {
-                  result += `($${i}, ${itemid}),`;
-                }
-                return result.slice(0, -1) + ';';
-              }
+              //grab the id for the new item to add to itemtags itemid foreign key later
+              let newItemId = newItemQuery.rows[0].id;
 
               const newTag = await postgres.query({
                 text: `INSERT INTO itemtags (itemid,tagid) VALUES ${tagsQueryStrings(
                   [...tags],
-                  itemid,
-                  results
+                  newItemId,
+                  ''
                 )}`,
                 value: tags.map(tag => tag.id)
               });

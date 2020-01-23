@@ -1,4 +1,4 @@
-const { ApolloError } = require("apollo-server");
+const { ApolloError } = require('apollo-server');
 
 const relationResolvers = {
   User: {
@@ -45,14 +45,14 @@ const relationResolvers = {
     //     fullname: "Mock user",
     //     email: "mock@user.com",
     //     bio: "Mock user. Remove me."
-    //   }
+    // }
     //   // -------------------------------
     // },
     // async tags() {
     //   // @TODO: Replace this mock return statement with the correct tags for the queried Item from Postgres
     //   return []
     //   // -------------------------------
-    // },
+    // }
     // async borrower() {
     //   /**
     //    * @TODO: Replace this mock return statement with the correct user from Postgres
