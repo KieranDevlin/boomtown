@@ -27,27 +27,14 @@ const relationResolvers = {
   },
 
   Item: {
-    /**
-     *  @TODO: Advanced resolvers
-     *
-     *  The Item GraphQL type has two fields that are not present in the
-     *  Items table in Postgres: itemowner, tags and borrower.
-     *
-     * According to our GraphQL schema, the itemowner and borrower should return
-     * a User (GraphQL type) and tags should return a list of Tags (GraphQL type)
-     *
-     */
-    // @TODO: Uncomment these lines after you define the Item type with these fields
-    // async itemowner() {
-    //   // @TODO: Replace this mock return statement with the correct user from Postgres
-    //   return {
-    //     id: 29,
-    //     fullname: "Mock user",
-    //     email: "mock@user.com",
-    //     bio: "Mock user. Remove me."
-    // }
-    //   // -------------------------------
-    // },
+    async itemowner({ ownerid }, args, { pgResource }, info) {
+      try {
+        const items = await pgResource.getUserById(ownerid);
+        return items;
+      } catch (e) {
+        return new ApolloError(e);
+      }
+    },
     async tags({ id }, args, { pgResource }, info) {
       try {
         const tags = await pgResource.getTagsForItem(id);
@@ -55,16 +42,16 @@ const relationResolvers = {
       } catch (e) {
         return new ApolloError(e);
       }
+    },
+    async borrower({ borrowerid }, args, { pgResource }, info) {
+      console.log(borrowerid);
+      try {
+        const tags = await pgResource.getUserById(borrowerid);
+        return tags;
+      } catch (e) {
+        return new ApolloError(e);
+      }
     }
-    // async borrower() {
-    //   /**
-    //    * @TODO: Replace this mock return statement with the correct user from Postgres
-    //    * or null in the case where the item has not been borrowed.
-    //    */
-    //   return null
-    //   // -------------------------------
-    // }
-    // -------------------------------
   }
 };
 

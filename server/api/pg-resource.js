@@ -1,4 +1,4 @@
-//iterated through an undetermined amount of tags and concatenates into a string to use in query
+//iterate through an undetermined amount of tags and concatenates into a string to use in gql query
 function tagsQueryString(tags, itemid, result) {
   for (i = tags.length; i > 0; i--) {
     result += `($${i}, ${itemid}),`;
@@ -10,7 +10,6 @@ module.exports = postgres => {
     async createUser({ fullname, email, password }) {
       const newUserInsert = {
         // @TODO: Authentication - Server ?????
-        // use $1 for sercurity in accessing the db
         text:
           'INSERT INTO users (fullname, email, password, bio) VALUES  ($1, $2, $3) RETURNING *;',
         values: [fullname, email, password]
@@ -65,8 +64,7 @@ module.exports = postgres => {
        */
 
       const findUserQuery = {
-        text:
-          'SELECT id, fullname, email, bio FROM users WHERE id = $1 RETURNING *', // @TODO: Basic queries
+        text: 'SELECT id, fullname, email, bio FROM users WHERE id = $1 ',
         values: [id]
       };
       try {
