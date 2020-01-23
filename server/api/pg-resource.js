@@ -1,7 +1,7 @@
 //iterate through an undetermined amount of tags and concatenates into a string to use in gql query
 function tagsQueryString(tags, itemid, result) {
-  for (i = tags.length; i > 0; i--) {
-    result += `($${i}, ${itemid}),`;
+  for (let i = tags.length; i > 0; i--) {
+    result += `(${itemid}, $${i}),`;
   }
   return result.slice(0, -1) + ';';
 }
@@ -155,23 +155,24 @@ module.exports = postgres => {
             client.query('BEGIN', async err => {
               const { title, description, tags } = item;
 
-              const newItem = await postgres.query({
-                text: `INSERT INTO items (title, description, ownerid) VALUES ($1, $2, $3) RETURNING *;`,
-                value: [title, description, user.id]
-              });
-              const newItemQuery = await postgres.query(newItem);
+              const newItemQuery = {
+                text: `INSERT INTO items (title, description, ownerid) VALUES ($1, $2, $3) RETURNING * ;`,
+                values: [title, description, user]
+              };
+              const newItem = await postgres.query(newItemQuery);
               //grab the id for the new item to add to itemtags itemid foreign key later
-              let newItemId = newItemQuery.rows[0].id;
+              let newItemId = newItem.rows[0].id;
 
-              const newTag = await postgres.query({
-                text: `INSERT INTO itemtags (itemid,tagid) VALUES ${tagsQueryStrings(
+              const newTags = {
+                text: `INSERT INTO itemtags (itemid, tagid) VALUES ${tagsQueryString(
                   [...tags],
                   newItemId,
                   ''
                 )}`,
-                value: tags.map(tag => tag.id)
-              });
-              const newTagQuery = await postgres.query(newTag);
+                values: tags.map(tag => tag.id)
+              };
+
+              await postgres.query(newTags);
 
               // Commit the entire transaction!
               client.query('COMMIT', err => {

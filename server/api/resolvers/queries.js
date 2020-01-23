@@ -38,7 +38,7 @@ const queryResolvers = app => ({
       const tags = await pgResource.getTags();
       return tags;
     } catch (e) {
-      return new ApolloError(e);
+      throw new ApolloError(e);
     }
   }
 });

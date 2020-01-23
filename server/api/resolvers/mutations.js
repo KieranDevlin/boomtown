@@ -126,7 +126,7 @@ const mutationResolvers = app => ({
     context.req.res.clearCookie(app.get('JWT_COOKIE_NAME'));
     return true;
   },
-  async addItem(parent, args, context, info) {
+  async addItem(parent, { item }, { pgResource }, info) {
     /**
      *  @TODO: Destructuring
      *
@@ -139,12 +139,20 @@ const mutationResolvers = app => ({
      *  Again, you may look at the user resolver for an example of what
      *  destructuring should look like.
      */
-    const user = await jwt.decode(context.token, app.get('JWT_SECRET'));
-    const newItem = await context.pgResource.saveNewItem({
-      item: args.item,
-      user
-    });
-    return newItem;
+
+    //deconstructed properties of parameters - whose arguments will be objects
+    //deconstruct token later during  server auth
+
+    // const user = await jwt.decode(context.token, app.get('JWT_SECRET'));
+    try {
+      const newItem = await pgResource.saveNewItem({
+        item,
+        user: 1 // change this later
+      });
+      return newItem;
+    } catch (err) {
+      throw new ApolloError(err);
+    }
   }
 });
 

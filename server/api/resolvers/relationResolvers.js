@@ -7,7 +7,7 @@ const relationResolvers = {
         const items = await pgResource.getItemsForUser(id);
         return items;
       } catch (e) {
-        return new ApolloError(e);
+        throw new ApolloError(e);
       }
     },
     async borrowed({ id }, args, { pgResource }, info) {
@@ -15,7 +15,7 @@ const relationResolvers = {
         const items = await pgResource.getBorrowedItemsForUser(id);
         return items;
       } catch (e) {
-        return new ApolloError(e);
+        throw new ApolloError(e);
       }
     }
   },
@@ -26,7 +26,7 @@ const relationResolvers = {
         const items = await pgResource.getUserById(ownerid);
         return items;
       } catch (e) {
-        return new ApolloError(e);
+        throw new ApolloError(e);
       }
     },
     async tags({ id }, args, { pgResource }, info) {
@@ -34,7 +34,7 @@ const relationResolvers = {
         const tags = await pgResource.getTagsForItem(id);
         return tags;
       } catch (e) {
-        return new ApolloError(e);
+        throw new ApolloError(e);
       }
     },
     async borrower({ borrowerid }, args, { pgResource }, info) {
@@ -42,7 +42,7 @@ const relationResolvers = {
         const tags = await pgResource.getUserById(borrowerid);
         return tags;
       } catch (e) {
-        return new ApolloError(e);
+        throw new ApolloError(e);
       }
     }
   }
