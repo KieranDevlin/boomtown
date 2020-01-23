@@ -7,16 +7,6 @@ const { gql } = require('apollo-server-express');
  */
 module.exports = gql`
   scalar Date
-  input SignUpInput {
-    fullname: String!
-    email: String!
-    password: String!
-  }
-
-  input LoginInput {
-    email: String!
-    passowrd: String!
-  }
 
   type Item {
     id: ID!
@@ -46,6 +36,17 @@ module.exports = gql`
   type AuthPayLoad {
     token: String
     user: User
+  }
+
+  input SignUpInput {
+    fullname: String!
+    email: String!
+    password: String!
+  }
+
+  input LoginInput {
+    email: String!
+    passowrd: String!
   }
 
   input AssignedTag {

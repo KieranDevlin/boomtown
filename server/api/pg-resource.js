@@ -112,7 +112,9 @@ module.exports = postgres => {
       return items.rows;
     },
     async getTags() {
-      const tags = await postgres.query();
+      const tags = await postgres.query({
+        text: `SELECT * FROM tags`
+      });
       return tags.rows;
     },
     async getTagsForItem(id) {
@@ -181,7 +183,7 @@ module.exports = postgres => {
                 // release the client back to the pool
                 done();
                 // Uncomment this resolve statement when you're ready!
-                // resolve(newItem.rows[0])
+                resolve(newItem.rows[0]);
                 // -------------------------------
               });
             });
