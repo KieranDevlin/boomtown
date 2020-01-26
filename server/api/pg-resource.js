@@ -44,6 +44,7 @@ module.exports = postgres => {
     },
     async getUserById(id) {
       const findUserQuery = {
+        // dont return password for security
         text: 'SELECT id, fullname, email, bio FROM users WHERE id = $1 ',
         values: [id]
       };
@@ -54,9 +55,6 @@ module.exports = postgres => {
       } catch (e) {
         throw ('User was not found. Error code:', e);
       }
-
-      const user = await postgres.query(findUserQuery);
-      return user;
     },
     async getItems(idToOmit) {
       const items = await postgres.query({
