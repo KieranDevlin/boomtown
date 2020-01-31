@@ -1,14 +1,13 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { Container, withStyles } from '@material-ui/core/';
 import styles from './styles';
+import ItemsGrid from '../../components/ItemsGrid/ItemsGrid';
 
-const Items = ({ classes }) => {
+const Items = ({ classes, items }) => {
   return (
-    <div>
-      <p>
-        This is the items page located at <code>/items</code>.
-      </p>
-    </div>
+    <Container maxWidth="lg" className={classes.root}>
+      <ItemsGrid items={items} />
+    </Container>
   );
 };
 

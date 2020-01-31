@@ -9,9 +9,11 @@ import Items from '../pages/Items';
 import Home from '../pages/Home';
 import Share from '../pages/Share';
 import Profile from '../pages/Profile';
+import NavBar from '../components/NavBar';
 
 export default () => (
   <Fragment>
+    <NavBar />
     {/* @TODO: Add your menu component here */}
     <Switch>
       <Route exact path="/items" component={Items} />

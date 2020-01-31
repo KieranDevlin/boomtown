@@ -9,11 +9,11 @@ class ItemsContainer extends Component {
     return (
       <Query query={ALL_ITEMS_QUERY} variables={{ filter: 1 }}>
         {({ loading, error, data }) => {
+          const { items } = data;
           // if (loading) return <FullScreenLoader />;
-          // if (loading) console.log(loading);
+          if (loading) return 'Loading...';
           if (error) return `Error! ${error.message}`;
-          console.log(data);
-          return <Items items={data} />;
+          return <Items items={items} />;
         }}
       </Query>
     );

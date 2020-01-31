@@ -2,13 +2,11 @@ import AppRoutes from './routes';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter as Router } from 'react-router-dom';
 import client from './apollo';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { CssBaseline, MuiThemeProvider } from '@material-ui/core/';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import theme from './theme';
-
 /**
  * @TODO: Add Routing
  *
