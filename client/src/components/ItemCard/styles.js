@@ -19,9 +19,8 @@ const styles = createStyles({
   },
   user: {
     padding: 0,
-    height: 100,
-    width: 100
-    // backgroundColor: 'green'
+    height: 80,
+    width: 80
   },
   content: {
     padding: 0,
