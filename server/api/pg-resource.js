@@ -43,13 +43,13 @@ module.exports = postgres => {
       }
     },
     async getUserById(id) {
-      const findUserQuery = {
+      const getUserQuery = {
         // dont return password for security
         text: 'SELECT id, fullname, email, bio FROM users WHERE id = $1 ',
         values: [id]
       };
       try {
-        const user = await postgres.query(findUserQuery);
+        const user = await postgres.query(getUserQuery);
         if (!user) throw 'User was not found.';
         return user.rows[0];
       } catch (e) {
@@ -57,40 +57,69 @@ module.exports = postgres => {
       }
     },
     async getItems(idToOmit) {
-      const items = await postgres.query({
+      const getItemsQuery = {
         text: `SELECT * FROM items WHERE ownerid != $1`,
         values: idToOmit ? [idToOmit] : []
-      });
-      return items.rows;
+      };
+      try {
+        const items = await postgres.query(getItemsQuery);
+        if (!items) throw 'Items were not found.';
+        return items.rows;
+      } catch (e) {
+        throw 'Items were not found.';
+      }
     },
     async getItemsForUser(id) {
-      const items = await postgres.query({
+      const getUsersItemsQuery = {
         text: `SELECT * FROM items WHERE ownerid = $1`,
         values: [id]
-      });
+      };
+      try {
+        const usersItems = await postgres.query(getUsersItemsQuery);
+        if (!usersItems) throw 'Users items were not found.';
+        return usersItems.rows;
+      } catch (e) {
+        throw 'Users items were not found.';
+      }
       return items.rows;
     },
     async getBorrowedItemsForUser(id) {
-      const items = await postgres.query({
+      const getBorrowedItemsQuery = {
         text: `SELECT * FROM items WHERE borrowerid = $1`,
         values: [id]
-      });
-      return items.rows;
+      };
+      try {
+        const borrowedItems = await postgres.query(getBorrowedItemsQuery);
+        if (!borrowedItems) throw 'Borrowed items were not found.';
+        return borrowedItems.rows;
+      } catch (e) {
+        throw 'Borrowed items were not found.';
+      }
     },
     async getTags() {
-      const tags = await postgres.query({
+      const getTagsQuery = {
         text: `SELECT * FROM tags`
-      });
-      return tags.rows;
+      };
+      try {
+        const tags = await postgres.query(getTagsQuery);
+        if (!tags) throw 'Tags were not found.';
+        return tags.rows;
+      } catch (e) {
+        throw 'Tags were not found.';
+      }
     },
     async getTagsForItem(id) {
-      const tagsQuery = {
+      const getItemtagsQuery = {
         text: `SELECT * FROM tags INNER JOIN itemtags ON itemtags.tagid = tags.id WHERE itemtags.itemid =$1`, // @TODO: Advanced query Hint: use INNER JOIN
         values: [id]
       };
-
-      const tags = await postgres.query(tagsQuery);
-      return tags.rows;
+      try {
+        const tags = await postgres.query(getItemtagsQuery);
+        if (!tags) throw 'Tags for item were not found.';
+        return tags.rows;
+      } catch (e) {
+        throw 'Tags for item were not found.';
+      }
     },
     async saveNewItem({ item, user }) {
       return new Promise((resolve, reject) => {
