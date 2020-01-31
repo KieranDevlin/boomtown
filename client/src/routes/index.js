@@ -14,7 +14,6 @@ import NavBar from '../components/NavBar';
 export default () => (
   <Fragment>
     <NavBar />
-    {/* @TODO: Add your menu component here */}
     <Switch>
       <Route exact path="/items" component={Items} />
       <Route exact path="/home" component={Home} />
