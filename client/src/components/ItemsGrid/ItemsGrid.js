@@ -11,7 +11,7 @@ import ItemCard from '../ItemCard';
 
 const ItemsGrid = ({ items }) => {
   return (
-    <Grid container justify="center" spacing={6}>
+    <Grid container spacing={5}>
       {items.map(item => (
         <Grid item key={item.id}>
           <ItemCard
@@ -20,6 +20,7 @@ const ItemsGrid = ({ items }) => {
             description={item.description}
             created={item.created}
             tags={item.tags}
+            itemowner={item.itemowner}
           />
         </Grid>
       ))}
