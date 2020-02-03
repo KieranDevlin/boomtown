@@ -41,6 +41,7 @@ const NavBar = ({ classes }) => {
             <Button
               size="large"
               color="secondary"
+              href="/share"
               className={classes.navButton}
             >
               <Add className={classes.addIcon} />
