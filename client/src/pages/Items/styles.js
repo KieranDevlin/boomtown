@@ -1,6 +1,7 @@
 const styles = theme => ({
   root: {
-    padding: '100px 48px',
+    paddingTop: 120,
+    paddingLeft: '5.5%',
     background: theme.palette.secondary.main
   }
 });
