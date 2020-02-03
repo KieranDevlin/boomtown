@@ -5,7 +5,7 @@ import ItemsGrid from '../../components/ItemsGrid/ItemsGrid';
 
 const Items = ({ classes, items }) => {
   return (
-    <Container maxWidth="lg" className={classes.root}>
+    <Container className={classes.root}>
       <ItemsGrid items={items} />
     </Container>
   );
