@@ -1,21 +1,27 @@
-import { createStyles } from '@material-ui/core/styles';
-
-const styles = createStyles({
+const styles = theme => ({
   card: {
-    width: 345,
+    minWidth: 345,
     height: 500,
-    maxWidth: 350,
+    maxWidth: 350
+    // display: 'flex',
+    // flexDirection: 'column',
+    // justifyContent: 'space-between'
+  },
+  innerCard: {
+    height: '60%',
+    boxSizing: 'border-box',
+    padding: 10,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
-  innerCard: {
-    boxSizing: 'border-box',
-    padding: 10
+  actionArea: {
+    maxHeight: '85%',
+    overflow: 'hidden'
   },
   media: {
     padding: 0,
-    height: 200
+    height: '40%'
   },
   user: {
     padding: 0,
@@ -27,7 +33,28 @@ const styles = createStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    height: 150
+    height: '50%'
+  },
+  itemInfoContainer: {
+    display: 'flex',
+    alignContent: 'center'
+  },
+  customGravatar: {
+    borderRadius: '50%',
+    marginRight: 20
+  },
+  itemInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  buttonContainer: {
+    padding: 0
+  },
+  cardButton: {
+    width: 50,
+    padding: 8,
+    height: '100%'
   }
 });
 
