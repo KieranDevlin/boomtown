@@ -1,19 +1,18 @@
-import {
-  withStyles,
-  Grid,
-  Input,
-  InputLabel,
-  Typography
-} from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import React from 'react';
 import styles from './styles';
 import ItemCard from '../ItemCard';
+import { ItemPreviewContext } from '../../context/ItemPreviewProvider';
 
-const ShareItemPreview = ({ items, classes }) => {
+const ShareItemPreview = ({ classes }) => {
   return (
-    <div className={classes.root}>
-      <p>test text </p>
-    </div>
+    <ItemPreviewContext.Consumer>
+      {({ state }) => (
+        <div className={classes.root}>
+          <ItemCard item={state.item} />
+        </div>
+      )}
+    </ItemPreviewContext.Consumer>
   );
 };
 
