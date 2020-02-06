@@ -8,14 +8,7 @@ const ItemsGrid = ({ items }) => {
     <Grid container spacing={6}>
       {items.map(item => (
         <Grid item key={item.id}>
-          <ItemCard
-            title={item.title}
-            imageurl={item.imageurl}
-            description={item.description}
-            created={item.created}
-            tags={item.tags}
-            itemowner={item.itemowner}
-          />
+          <ItemCard item={item} />
         </Grid>
       ))}
     </Grid>
