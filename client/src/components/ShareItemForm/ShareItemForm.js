@@ -1,136 +1,221 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  Checkbox,
-  Input,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  makeStyles,
-  Select,
+  Box,
+  Button,
   Typography,
   withStyles,
-  TextField,
-  FormControl
+  TextField
 } from '@material-ui/core';
 import styles from './styles';
-import { mergeClasses, useTheme } from '@material-ui/styles';
-import { Form, Field } from 'react-final-form';
+import { Form, Field, FormSpy } from 'react-final-form';
+import HomeIcon from '@material-ui/icons/Home';
+import { ItemPreviewContext } from '../../context/ItemPreviewProvider';
+import { Mutation } from 'react-apollo';
+import { ADD_ITEM_MUTATION } from '../../apollo/queries';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
+class ShareItemForm extends React.Component {
+  validate = values => {
+    const errors = {};
+
+    if (!values.title) {
+      errors.title = 'Required';
     }
+    if (!values.description) {
+      errors.description = 'Required';
+    }
+    return errors;
+  };
+
+  applyTags = (tags, allTags) => {
+    return tags.map(tag => {
+      const updatedTag = { title: tag };
+      allTags.filter(t => {
+        if (t.title === tag) {
+          updatedTag.id = t.id;
+        }
+      });
+      return updatedTag;
+    });
+  };
+
+  dispatchUpdate = (values, allTags, updatePreview) => {
+    updatePreview({
+      ...values,
+      tags: this.applyTags(values.tags || [], allTags)
+    });
+  };
+  render() {
+    const { classes, tags } = this.props;
+    return (
+      <Mutation mutation={ADD_ITEM_MUTATION}>
+        {addItem => (
+          <ItemPreviewContext.Consumer>
+            {({ updatePreview, resetPreview }) => (
+              <Box className={classes.root}>
+                <Typography variant="h2" style={{ fontWeight: 'bold' }}>
+                  Share. Borrow. Prosper.
+                </Typography>
+
+                <Form
+                  onSubmit={async values => {
+                    try {
+                      await addItem({
+                        variables: {
+                          item: {
+                            ...values,
+                            tags: this.applyTags(values.tags || [], tags)
+                          }
+                        }
+                      });
+                      resetPreview();
+                    } catch (e) {
+                      throw new Error(
+                        `There was an error adding your item.  + ${e}`
+                      );
+                    }
+                  }}
+                  validate={this.validate}
+                  render={({ handleSubmit, pristine }) => {
+                    return (
+                      <form onSubmit={handleSubmit}>
+                        <FormSpy
+                          subscription={{ values: true }}
+                          onChange={({ values }) => {
+                            if (values) {
+                              this.dispatchUpdate(values, tags, updatePreview);
+                            }
+                            return '';
+                          }}
+                        />
+                        <Field
+                          type="text"
+                          name="title"
+                          render={({ input, meta }) => (
+                            <React.Fragment>
+                              <TextField
+                                id="standard-basic"
+                                label="Name your item"
+                                className={classes.fields}
+                                {...input}
+                              />
+                              {meta.error && meta.touched && (
+                                <span>{meta.error}</span>
+                              )}
+                            </React.Fragment>
+                          )}
+                        />
+
+                        <Field
+                          type="text"
+                          name="description"
+                          render={({ input, meta }) => (
+                            <React.Fragment>
+                              <TextField
+                                id="standard-basic"
+                                label="Describe your item"
+                                className={classes.fields}
+                                {...input}
+                              />
+                              {meta.error && meta.touched && (
+                                <span>{meta.error}</span>
+                              )}
+                            </React.Fragment>
+                          )}
+                        />
+
+                        <Box className={classes.fields}>
+                          <Typography variant="h6">Add Tags:</Typography>
+                          <label className={classes.tagIcons}>
+                            <Field
+                              name="tags"
+                              component="input"
+                              type="checkbox"
+                              value="Household Items"
+                            />
+                            Household Items
+                            <HomeIcon />
+                          </label>
+                          <label className={classes.tagIcons}>
+                            <Field
+                              name="tags"
+                              component="input"
+                              type="checkbox"
+                              value="Electronics"
+                            />
+                            Electronics
+                            <HomeIcon />
+                          </label>
+                          <label className={classes.tagIcons}>
+                            <Field
+                              name="tags"
+                              component="input"
+                              type="checkbox"
+                              value="Musical Instruments"
+                            />
+                            Musical Instruments
+                            <HomeIcon />
+                          </label>
+                          <label className={classes.tagIcons}>
+                            <Field
+                              name="tags"
+                              component="input"
+                              type="checkbox"
+                              value="Sporting Goods"
+                            />
+                            Sporting Goods
+                            <HomeIcon />
+                          </label>
+                          <label className={classes.tagIcons}>
+                            <Field
+                              name="tags"
+                              component="input"
+                              type="checkbox"
+                              value="Tools"
+                            />
+                            Tools
+                            <HomeIcon />
+                          </label>
+                          <label className={classes.tagIcons}>
+                            <Field
+                              name="tags"
+                              component="input"
+                              type="checkbox"
+                              value="Recreational Equipment"
+                            />
+                            Recreational Equipment
+                            <HomeIcon />
+                          </label>
+                          <label className={classes.tagIcons}>
+                            <Field
+                              name="tags"
+                              component="input"
+                              type="checkbox"
+                              value="Physical Media"
+                            />
+                            Physical Media
+                            <HomeIcon />
+                          </label>
+                        </Box>
+                        <Button
+                          className={classes.submitBtn}
+                          type="submit"
+                          variant="contained"
+                          size="medium"
+                          disabled={pristine}
+                        >
+                          SHARE
+                        </Button>
+                      </form>
+                    );
+                  }}
+                />
+              </Box>
+            )}
+          </ItemPreviewContext.Consumer>
+        )}
+      </Mutation>
+    );
   }
-};
-
-// function getStyles(name, tagTitle, theme) {
-//   return {
-//     fontWeight:
-//       tagTitle.indexOf(name) === -1
-//         ? theme.typography.fontWeightRegular
-//         : theme.typography.fontWeightMedium
-//   };
-// }
-
-const ShareForm = ({ classes, tags }) => {
-  const theme = useTheme();
-  const [tagTitle, settagTitle] = React.useState([]);
-
-  const handleChange = event => {
-    settagTitle(event.target.value);
-  };
-  const onSubmit = values => {
-    console.log(values);
-  };
-  // handleSubmit = () => {
-  //   console.log('poopoo');
-  // };
-
-  return (
-    <div className={classes.root}>
-      <Typography variant="h2">Share. Borrow. Prosper.</Typography>
-      <Form
-        onSubmit={onSubmit}
-        // validate={this.validate}
-        render={({ handleSubmit }) => {
-          return (
-            <form onSubmit={handleSubmit}>
-              <Field
-                type="text"
-                name="item"
-                render={({ input, meta }) => (
-                  <React.Fragment>
-                    <TextField
-                      id="standard-basic"
-                      label="Name your item"
-                      style={{ width: '100%' }}
-                      // className={classes.textFields}
-                    />
-                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                  </React.Fragment>
-                )}
-              />
-              <Field
-                type="text"
-                name="description"
-                render={({ input, meta }) => (
-                  <React.Fragment>
-                    <TextField
-                      id="standard-basic"
-                      label="Describe your item"
-                      style={{ width: '100%' }}
-                      // className={classes.textFields}
-                    />
-                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                  </React.Fragment>
-                )}
-              />
-            </form>
-          );
-        }}
-      />
-
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-mutiple-checkbox-label">Tag</InputLabel>
-        <Select
-          labelid="demo-mutiple-checkbox-label"
-          id="demo-mutiple-checkbox"
-          multiple
-          value={tagTitle}
-          onChange={handleChange}
-          input={<Input />}
-          renderValue={selected => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {tags.map(tag => (
-            <MenuItem key={tag.id} value={tag.title}>
-              <Checkbox checked={tagTitle.indexOf(tag.id) > -1} />
-              <ListItemText primary={tag.title} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  );
-  // }
-};
-
-export default withStyles(styles)(ShareForm);
-
-{
-  /*               
-          <TextField
-            id="standard-basic"
-            label="Name your item"
-            style={{ width: '100%' }}
-          />
-          <TextField
-            id="standard-basic"
-            label="Describe your item"
-            style={{ width: '100%' }}
-          /> */
 }
+
+export default withStyles(styles)(ShareItemForm);
