@@ -1,12 +1,13 @@
 const styles = theme => ({
   root: {
-    width: '33%',
-    backgroundColor: 'blue'
+    // width: '40%'
   },
-  formControl: {
-    margin: theme.spacing(1),
+  fields: {
     width: '100%',
-    margin: 0
+    margin: '8px 0'
+  },
+  submitBtn: {
+    diplay: 'block'
   }
 });
 
