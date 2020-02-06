@@ -1,81 +1,78 @@
 import { withStyles } from '@material-ui/core/styles';
-import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
 import moment from 'moment';
-
 import {
   Button,
+  Box,
   Card,
   CardActions,
+  CardActionArea,
   CardContent,
-  CardMedia
+  CardMedia,
+  Link,
+  Typography
 } from '@material-ui/core';
 import Gravatar from 'react-gravatar';
 import styles from './styles';
 
-const ItemCard = ({
-  id,
-  title,
-  imageurl,
-  description,
-  created,
-  tags,
-  classes,
-  itemowner
-}) => {
-  const date = moment(created)
-    .startOf('day')
-    .fromNow();
-
+const ItemCard = ({ item, classes }) => {
   return (
-    <Card className={classes.card}>
-      <CardMedia
-        className={classes.media}
-        style={{
-          background: `url(https://picsum.photos/400/300)`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      ></CardMedia>
+    <Card className={classes.card} raised>
+      <Link
+        href={`/profile/${item && item.itemowner.id}`}
+        color="secondary"
+        underline="none"
+      >
+        <CardMedia
+          component="img"
+          src={
+            item && item.imageurl
+              ? item.imageurl
+              : 'http://via.placeholder.com/350x250?text=No+image'
+          }
+          className={classes.media}
+        />
+      </Link>
       <CardContent className={classes.innerCard}>
-        <div style={{ display: 'flex', alignContent: 'center' }}>
+        <Box className={classes.itemInfoContainer}>
           <Gravatar
-            email={itemowner.email}
-            size={80}
+            email={item && item.itemowner && item.itemowner.email}
+            size={70}
             rating="pg"
-            default="monsterid"
-            className="CustomAvatar-image"
-            style={{ borderRadius: 50, marginRight: 20 }}
+            default="retro"
+            className={`CustomAvatar-image ${classes.customGravatar}`}
           />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center'
-            }}
-          >
-            <Typography>{itemowner.fullname}</Typography>
-            <Typography>{date}</Typography>
-          </div>
-        </div>
+          <Box className={classes.itemInfo}>
+            <Link
+              href={`/profile/${item && item.itemowner.id}`}
+              color="secondary"
+            >
+              {item && item.itemowner && item.itemowner.fullname}
+            </Link>
+            <Typography>
+              {item &&
+                moment(item && item.created)
+                  .startOf('day')
+                  .fromNow()}
+            </Typography>
+          </Box>
+        </Box>
 
-        {/* <Avatar
-          className={classes.user}
-          alt="Remy Sharp"
-          src="https://cdn.auth0.com/blog/react-js/react.png"
-        /> */}
         <CardContent className={classes.content}>
-          <Typography variant="h5">{title}</Typography>
-          {tags.map(tag => {
-            return (
-              <Typography variant="caption" key={tag.id}>
-                {tag.title}
-              </Typography>
-            );
-          })}
-          <Typography>{description}</Typography>
+          <Typography variant="h5">{item && item.title}</Typography>
+          {item &&
+            item.tags &&
+            item.tags.map(tag => {
+              return (
+                <Typography variant="caption" key={tag.id}>
+                  {tag.title}
+                </Typography>
+              );
+            })}
+          <Typography>{item && item.description}</Typography>
         </CardContent>
-        <CardActions style={{ padding: 0 }}>
+
+        <CardActions className={classes.buttonContainer} disableSpacing={true}>
           <Button variant="outlined" size="medium" color="secondary">
             Borrow
           </Button>
