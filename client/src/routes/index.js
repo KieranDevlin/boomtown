@@ -1,30 +1,40 @@
 import React, { Fragment } from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch
-} from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Items from '../pages/Items';
 import Home from '../pages/Home';
 import Share from '../pages/Share';
 import Profile from '../pages/Profile';
 import NavBar from '../components/NavBar';
+import { ViewerContext } from '../context/ViewerProvider';
+import PrivateRoute from '../components/PrivateRoute';
+import FullScreenLoader from '../components/FullScreenLoader';
 
 export default () => (
-  <Fragment>
-    <NavBar />
-    <Switch>
-      <Route exact path="/items" component={Items} />
-      <Route exact path="/home" component={Home} />
-      <Route exact path="/profile" component={Profile} />
-      <Route exact path="/profile/:id" component={Profile} />
-      <Route exact path="/share" component={Share} />
-      <Redirect from="*" to="/items" />
-      {/**
-       * Later, we'll add logic to send users to one set of routes if they're logged in,
-       * or only view the /welcome page if they are not.
-       */}
-    </Switch>
-  </Fragment>
+  <ViewerContext.Consumer>
+    {({ viewer, loading }) => {
+      if (loading) return <FullScreenLoader />;
+      if (!viewer) {
+        return (
+          <Switch>
+            <Route exact path="/welcome" name="home" component={Home} />
+            <Redirect from="*" to="/welcome" />
+          </Switch>
+        );
+      }
+
+      return (
+        <Fragment>
+          <NavBar />
+          <Switch>
+            <PrivateRoute exact path="/items" component={Items} />
+            <PrivateRoute exact path="/home" component={Home} />
+            <PrivateRoute exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/profile/:id" component={Profile} />
+            <PrivateRoute exact path="/share" component={Share} />
+            <Redirect from="*" to="/items" />
+          </Switch>
+        </Fragment>
+      );
+    }}
+  </ViewerContext.Consumer>
 );
