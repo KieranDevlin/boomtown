@@ -1,24 +1,33 @@
 import React from 'react';
 import logo from '../../images/boomtown.svg';
-
+import { withRouter } from 'react-router-dom';
 import {
   AppBar,
   Button,
-  Container,
   IconButton,
   Link,
   Menu,
   MenuItem,
   Toolbar,
-  withStyles
+  withStyles,
+  Slide
 } from '@material-ui/core/';
-import { Add, MoreVert } from '@material-ui/icons/';
+import {
+  Add,
+  MoreVert,
+  Fingerprint,
+  PowerSettingsNew
+} from '@material-ui/icons/';
 import styles from './styles';
-const options = ['Profile', 'Sign'];
+
+const options = [
+  { id: 0, icon: Fingerprint, label: 'Profile', path: '/profile' },
+  { id: 1, icon: PowerSettingsNew, label: 'Sign Out', path: '/home' }
+];
 
 const ITEM_HEIGHT = 48;
 
-const NavBar = ({ classes }) => {
+const NavBar = ({ classes, location }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -26,27 +35,35 @@ const NavBar = ({ classes }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = value => {
+    console.log(value);
     setAnchorEl(null);
   };
 
   return (
-    <div>
+    <Slide in={location.pathname !== '/home'}>
       <AppBar>
         <Toolbar className={classes.nav}>
-          <Link href="/home">
-            <img src={logo} className={classes.logo} />
+          <Link href="/items">
+            <img
+              src={logo}
+              className={classes.logo}
+              alt="BoomTown logo - return to home."
+            />
           </Link>
           <div>
-            <Button
-              size="large"
-              color="secondary"
-              href="/share"
-              className={classes.navButton}
-            >
-              <Add className={classes.addIcon} />
-              Share Something
-            </Button>
+            <Slide in={location.pathname !== '/share'}>
+              <Button
+                size="large"
+                color="secondary"
+                href="/share"
+                className={classes.navButton}
+              >
+                <Add className={classes.addIcon} />
+                Share Something
+              </Button>
+            </Slide>
+
             <IconButton
               aria-label="more"
               aria-controls="long-menu"
@@ -68,21 +85,30 @@ const NavBar = ({ classes }) => {
                 }
               }}
             >
-              {options.map(option => (
-                <MenuItem
-                  key={option}
-                  selected={option === 'Pyxis'}
-                  onClick={handleClose}
-                >
-                  {option}
-                </MenuItem>
-              ))}
+              {options.map(option => {
+                let IconComponent = option.icon;
+                return (
+                  <Link key={option.id} href={option.path} color="secondary">
+                    <MenuItem
+                      selected={option === 'Profile'}
+                      onClick={handleClose}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <IconComponent />
+                      {option.label}
+                    </MenuItem>
+                  </Link>
+                );
+              })}
             </Menu>
           </div>
         </Toolbar>
       </AppBar>
-    </div>
+    </Slide>
   );
 };
 
-export default withStyles(styles)(NavBar);
+export default withRouter(withStyles(styles)(NavBar));
