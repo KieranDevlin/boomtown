@@ -1,8 +1,9 @@
 const styles = theme => ({
   root: {
-    paddingTop: 120,
-    display: 'flex',
-    justifyContent: 'space-evenly'
+    paddingTop: 120
+  },
+  gridItem: {
+    width: '40%'
   }
 });
 
