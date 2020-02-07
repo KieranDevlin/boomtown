@@ -9,13 +9,14 @@ module.exports = postgres => {
   return {
     async createUser({ fullname, email, password }) {
       const newUserInsert = {
-        // @TODO: Authentication - Server
         text:
-          'INSERT INTO users (fullname, email, password, bio) VALUES  ($1, $2, $3) RETURNING *;',
+          'INSERT INTO users (fullname, email, password) VALUES  ($1, $2, $3) RETURNING *;',
         values: [fullname, email, password]
       };
       try {
         const user = await postgres.query(newUserInsert);
+        //user is an object and rows is a property of that object and contains
+        //rows which is the result of the INSERT query
         return user.rows[0];
       } catch (e) {
         switch (true) {
@@ -30,7 +31,6 @@ module.exports = postgres => {
     },
     async getUserAndPasswordForVerification(email) {
       const findUserQuery = {
-        // @TODO: Authentication - Server
         text: 'SELECT * FROM users WHERE email = $1',
         values: [email]
       };
@@ -128,11 +128,11 @@ module.exports = postgres => {
           try {
             // Begin postgres transaction
             client.query('BEGIN', async err => {
-              const { title, description, tags } = item;
+              const { title, description, tags, imageurl } = item;
 
               const newItemQuery = {
-                text: `INSERT INTO items (title, description, ownerid) VALUES ($1, $2, $3) RETURNING * ;`,
-                values: [title, description, user]
+                text: `INSERT INTO items (title, description, ownerid, imageurl) VALUES ($1, $2, $3, $4) RETURNING * ;`,
+                values: [title, description, user, imageurl]
               };
               const newItem = await postgres.query(newItemQuery);
               //grab the id for the new item to add to itemtags itemid foreign key later
