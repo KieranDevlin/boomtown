@@ -74,6 +74,7 @@ export const ADD_ITEM_MUTATION = gql`
       id
       title
       description
+      imageurl
       tags {
         id
         title
@@ -100,7 +101,7 @@ export const LOGOUT_MUTATION = gql`
 `;
 
 export const SIGNUP_MUTATION = gql`
-  mutation signup($user: SignupInput!) {
+  mutation signup($user: SignUpInput!) {
     signup(user: $user) {
       token
       user {
