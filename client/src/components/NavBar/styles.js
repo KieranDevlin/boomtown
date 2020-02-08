@@ -16,6 +16,11 @@ const styles = theme => ({
   },
   logo: {
     height: 40
+  },
+  menuItems: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    color: theme.palette.secondary.main
   }
 });
 
