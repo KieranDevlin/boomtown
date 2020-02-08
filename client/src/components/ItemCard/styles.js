@@ -1,11 +1,6 @@
 const styles = theme => ({
   card: {
-    minWidth: 345,
-    height: 500,
-    maxWidth: 350
-    // display: 'flex',
-    // flexDirection: 'column',
-    // justifyContent: 'space-between'
+    height: 475
   },
   innerCard: {
     height: '60%',
@@ -15,18 +10,9 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
-  actionArea: {
-    maxHeight: '85%',
-    overflow: 'hidden'
-  },
   media: {
     padding: 0,
     height: '40%'
-  },
-  user: {
-    padding: 0,
-    height: 80,
-    width: 80
   },
   content: {
     padding: 0,
@@ -51,10 +37,8 @@ const styles = theme => ({
   buttonContainer: {
     padding: 0
   },
-  cardButton: {
-    width: 50,
-    padding: 8,
-    height: '100%'
+  tags: {
+    marginRight: 8
   }
 });
 
