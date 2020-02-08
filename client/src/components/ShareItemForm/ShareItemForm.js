@@ -2,16 +2,23 @@ import React from 'react';
 import {
   Box,
   Button,
+  Grid,
   Typography,
   withStyles,
   TextField
 } from '@material-ui/core';
 import styles from './styles';
 import { Form, Field, FormSpy } from 'react-final-form';
-import HomeIcon from '@material-ui/icons/Home';
 import { ItemPreviewContext } from '../../context/ItemPreviewProvider';
 import { Mutation } from 'react-apollo';
-import { ADD_ITEM_MUTATION } from '../../apollo/queries';
+import { ADD_ITEM_MUTATION, VIEWER_QUERY } from '../../apollo/queries';
+import HomeIcon from '@material-ui/icons/Home';
+import DevicesIcon from '@material-ui/icons/Devices';
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import BookIcon from '@material-ui/icons/Book';
+import BuildIcon from '@material-ui/icons/Build';
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
+import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 
 class ShareItemForm extends React.Component {
   validate = values => {
@@ -44,10 +51,13 @@ class ShareItemForm extends React.Component {
       tags: this.applyTags(values.tags || [], allTags)
     });
   };
+
   render() {
+    const refetchQueries = [{ query: VIEWER_QUERY }];
     const { classes, tags } = this.props;
+
     return (
-      <Mutation mutation={ADD_ITEM_MUTATION}>
+      <Mutation mutation={ADD_ITEM_MUTATION} refetchQueries={refetchQueries}>
         {addItem => (
           <ItemPreviewContext.Consumer>
             {({ updatePreview, resetPreview }) => (
@@ -93,8 +103,23 @@ class ShareItemForm extends React.Component {
                           render={({ input, meta }) => (
                             <React.Fragment>
                               <TextField
-                                id="standard-basic"
                                 label="Name your item"
+                                className={classes.fields}
+                                {...input}
+                              />
+                              {meta.error && meta.touched && (
+                                <span>{meta.error}</span>
+                              )}
+                            </React.Fragment>
+                          )}
+                        />
+                        <Field
+                          type="text"
+                          name="imageurl"
+                          render={({ input, meta }) => (
+                            <React.Fragment>
+                              <TextField
+                                label="Your image URL"
                                 className={classes.fields}
                                 {...input}
                               />
@@ -111,7 +136,6 @@ class ShareItemForm extends React.Component {
                           render={({ input, meta }) => (
                             <React.Fragment>
                               <TextField
-                                id="standard-basic"
                                 label="Describe your item"
                                 className={classes.fields}
                                 {...input}
@@ -125,76 +149,92 @@ class ShareItemForm extends React.Component {
 
                         <Box className={classes.fields}>
                           <Typography variant="h6">Add Tags:</Typography>
-                          <label className={classes.tagIcons}>
-                            <Field
-                              name="tags"
-                              component="input"
-                              type="checkbox"
-                              value="Household Items"
-                            />
-                            Household Items
-                            <HomeIcon />
-                          </label>
-                          <label className={classes.tagIcons}>
-                            <Field
-                              name="tags"
-                              component="input"
-                              type="checkbox"
-                              value="Electronics"
-                            />
-                            Electronics
-                            <HomeIcon />
-                          </label>
-                          <label className={classes.tagIcons}>
-                            <Field
-                              name="tags"
-                              component="input"
-                              type="checkbox"
-                              value="Musical Instruments"
-                            />
-                            Musical Instruments
-                            <HomeIcon />
-                          </label>
-                          <label className={classes.tagIcons}>
-                            <Field
-                              name="tags"
-                              component="input"
-                              type="checkbox"
-                              value="Sporting Goods"
-                            />
-                            Sporting Goods
-                            <HomeIcon />
-                          </label>
-                          <label className={classes.tagIcons}>
-                            <Field
-                              name="tags"
-                              component="input"
-                              type="checkbox"
-                              value="Tools"
-                            />
-                            Tools
-                            <HomeIcon />
-                          </label>
-                          <label className={classes.tagIcons}>
-                            <Field
-                              name="tags"
-                              component="input"
-                              type="checkbox"
-                              value="Recreational Equipment"
-                            />
-                            Recreational Equipment
-                            <HomeIcon />
-                          </label>
-                          <label className={classes.tagIcons}>
-                            <Field
-                              name="tags"
-                              component="input"
-                              type="checkbox"
-                              value="Physical Media"
-                            />
-                            Physical Media
-                            <HomeIcon />
-                          </label>
+                          <Grid container justify="space-between">
+                            <Grid item>
+                              <label className={classes.tagIcons}>
+                                <Field
+                                  name="tags"
+                                  component="input"
+                                  type="checkbox"
+                                  value="Household Items"
+                                />
+                                Household Items
+                                <HomeIcon />
+                              </label>
+                            </Grid>
+                            <Grid item>
+                              <label className={classes.tagIcons}>
+                                <Field
+                                  name="tags"
+                                  component="input"
+                                  type="checkbox"
+                                  value="Electronics"
+                                />
+                                Electronics
+                                <DevicesIcon />
+                              </label>
+                            </Grid>
+                            <Grid item>
+                              <label className={classes.tagIcons}>
+                                <Field
+                                  name="tags"
+                                  component="input"
+                                  type="checkbox"
+                                  value="Musical Instruments"
+                                />
+                                Musical Instruments
+                                <MusicNoteIcon />
+                              </label>
+                            </Grid>
+                            <Grid item>
+                              <label className={classes.tagIcons}>
+                                <Field
+                                  name="tags"
+                                  component="input"
+                                  type="checkbox"
+                                  value="Sporting Goods"
+                                />
+                                Sporting Goods
+                                <FitnessCenterIcon />
+                              </label>
+                            </Grid>
+                            <Grid item>
+                              <label className={classes.tagIcons}>
+                                <Field
+                                  name="tags"
+                                  component="input"
+                                  type="checkbox"
+                                  value="Tools"
+                                />
+                                Tools
+                                <BuildIcon />
+                              </label>
+                            </Grid>
+                            <Grid item>
+                              <label className={classes.tagIcons}>
+                                <Field
+                                  name="tags"
+                                  component="input"
+                                  type="checkbox"
+                                  value="Recreational Equipment"
+                                />
+                                Recreational Equipment
+                                <MotorcycleIcon />
+                              </label>
+                            </Grid>
+                            <Grid item>
+                              <label className={classes.tagIcons}>
+                                <Field
+                                  name="tags"
+                                  component="input"
+                                  type="checkbox"
+                                  value="Physical Media"
+                                />
+                                Physical Media
+                                <BookIcon />
+                              </label>
+                            </Grid>
+                          </Grid>
                         </Box>
                         <Button
                           className={classes.submitBtn}
@@ -202,6 +242,7 @@ class ShareItemForm extends React.Component {
                           variant="contained"
                           size="medium"
                           disabled={pristine}
+                          onSubmit={handleSubmit}
                         >
                           SHARE
                         </Button>
