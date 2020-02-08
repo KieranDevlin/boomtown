@@ -29,7 +29,7 @@ class AccountForm extends Component {
 
   render() {
     const { classes, loginMutation, signupMutation } = this.props;
-
+    const error = this.state.error;
     return (
       <Form
         onSubmit={values => {
@@ -37,6 +37,7 @@ class AccountForm extends Component {
           this.state.formToggle
             ? loginMutation(user).catch(error => this.setState({ error }))
             : signupMutation(user).catch(error => this.setState({ error }));
+          this.setState({ error: null });
         }}
         validate={validate.bind(this)}
         render={({ handleSubmit, pristine, invalid, submitting, form }) => (
@@ -47,15 +48,18 @@ class AccountForm extends Component {
 
                 <Field name="fullname">
                   {({ input, meta }) => (
-                    <Input
-                      id="fullname"
-                      type="text"
-                      inputProps={{
-                        ...input,
-                        autoComplete: 'off'
-                      }}
-                      value={input.value}
-                    />
+                    <React.Fragment>
+                      <Input
+                        id="fullname"
+                        type="text"
+                        inputProps={{
+                          ...input,
+                          autoComplete: 'off'
+                        }}
+                        value={input.value}
+                      />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </React.Fragment>
                   )}
                 </Field>
               </FormControl>
@@ -64,15 +68,18 @@ class AccountForm extends Component {
               <InputLabel htmlFor="email">Email</InputLabel>
               <Field name="email">
                 {({ input, meta }) => (
-                  <Input
-                    id="email"
-                    type="text"
-                    inputProps={{
-                      ...input,
-                      autoComplete: 'off'
-                    }}
-                    value={input.value}
-                  />
+                  <React.Fragment>
+                    <Input
+                      id="email"
+                      type="text"
+                      inputProps={{
+                        ...input,
+                        autoComplete: 'off'
+                      }}
+                      value={input.value}
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </React.Fragment>
                 )}
               </Field>
             </FormControl>
@@ -80,15 +87,18 @@ class AccountForm extends Component {
               <InputLabel htmlFor="password">Password</InputLabel>
               <Field name="password" type="password">
                 {({ input, meta }) => (
-                  <Input
-                    id="password"
-                    type="password"
-                    inputProps={{
-                      ...input,
-                      autoComplete: 'off'
-                    }}
-                    value={input.value}
-                  />
+                  <React.Fragment>
+                    <Input
+                      id="password"
+                      type="password"
+                      inputProps={{
+                        ...input,
+                        autoComplete: 'off'
+                      }}
+                      value={input.value}
+                    />{' '}
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </React.Fragment>
                 )}
               </Field>
             </FormControl>
@@ -135,6 +145,7 @@ class AccountForm extends Component {
                   !this.state.formToggle &&
                   this.state.error.graphQLErrors.message)}
             </Typography>
+            {error && <span>Invalid Email or Password</span>}
           </form>
         )}
       />
@@ -142,20 +153,21 @@ class AccountForm extends Component {
   }
 }
 
-const refectQueries = [{ query: VIEWER_QUERY }];
+const refetchQueries = [{ query: VIEWER_QUERY }];
+
 export default compose(
   graphql(SIGNUP_MUTATION, {
-    name: 'signupMutation',
-    option: {
-      refectQueries
-    }
+    options: {
+      refetchQueries
+    },
+    name: 'signupMutation'
   }),
 
   graphql(LOGIN_MUTATION, {
-    name: 'loginMutation',
-    option: {
-      refectQueries
-    }
+    options: {
+      refetchQueries
+    },
+    name: 'loginMutation'
   }),
   withStyles(styles)
 )(AccountForm);
