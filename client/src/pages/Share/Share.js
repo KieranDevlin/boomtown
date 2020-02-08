@@ -1,19 +1,21 @@
 import React from 'react';
-import { withStyles, Grid } from '@material-ui/core';
+import { Container, withStyles, Grid } from '@material-ui/core';
 import styles from './styles';
 import ShareItemForm from '../../components/ShareItemForm';
 import ShareItemPreview from '../../components/ShareItemPreview';
 
-const Share = ({ classes, tags }) => {
+const Share = ({ classes, tags, viewer }) => {
   return (
-    <Grid container className={classes.root} justify="space-evenly">
-      <Grid item className={classes.gridItem}>
-        <ShareItemPreview />
+    <Container className={classes.root}>
+      <Grid container spacing={6} justify="space-evenly">
+        <Grid item xs={8} md={5} lg={5}>
+          <ShareItemPreview viewer={viewer} />
+        </Grid>
+        <Grid item xs={8} md={5} lg={5}>
+          <ShareItemForm tags={tags} />
+        </Grid>
       </Grid>
-      <Grid item className={classes.gridItem}>
-        <ShareItemForm tags={tags} />
-      </Grid>
-    </Grid>
+    </Container>
   );
 };
 
