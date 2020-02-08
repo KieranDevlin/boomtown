@@ -44,7 +44,7 @@ module.exports = gql`
 
   input LoginInput {
     email: String!
-    passowrd: String!
+    password: String!
   }
 
   input AssignedTag {
@@ -60,6 +60,7 @@ module.exports = gql`
     title: String!
     description: String
     tags: [AssignedTag]!
+    imageurl: String
   }
 
   type Query {
