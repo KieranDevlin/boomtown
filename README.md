@@ -1,6 +1,6 @@
 # Boomtown 🏙
 
-This is a back-end application to support a mock local sharing economy. The app uses [PostgreSQL](https://www.postgresql.org/) as a relational database to store shareable items and user info, [Node.js](https://nodejs.org/en/)/[Express](https://expressjs.com/) as its web server, and [GraphQL](https://graphql.org/) for its client-facing API.
+This is a SPA application to support a mock local sharing economy. The app's backend uses [PostgreSQL](https://www.postgresql.org/) as a relational database to store shareable items and user info, [Node.js](https://nodejs.org/en/)/[Express](https://expressjs.com/) as its web server, and [GraphQL](https://graphql.org/) for its client-facing API. The front end uses [React](https://reactjs.org/) for client UI, [Final Form](https://final-form.org/) for form validation and state management, [PropTypes](https://www.npmjs.com/package/prop-types) for React component prop validation, [React-Router](https://reacttraining.com/react-router/web/guides/quick-start) for URL routing, Google's [MaterialUI](https://material-ui.com/) ,prebuilt React components for faster implementation. Lastly, for Client Authentication I used [bcrypt](https://www.npmjs.com/package/bcrypt) for client password hashing, [cookie-parser](https://www.npmjs.com/package/cookie-parser) and [JSON Web Token](https://jwt.io/) for token encryption and reading.
 
 ## Installation Instructions
 
@@ -141,12 +141,67 @@ A basic schema and query using GraphQL from [Graphql's](https://graphql.org/grap
 ![GraphQL mutation example](graphql-example.png)
 `GraphQl Playground`
 
+### React
+
+- A component based JavaScript library that uses state management to create complex User Interfaces.
+
+Super simple installation :
+
+```
+npm create-react-app *your app dir's name*
+```
+
+and quickly start building your app and it's components!
+
+```
+import React from 'react';
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+     //jsx here
+     <div>
+       <h1>Hello World!</h1>
+     </div>
+
+  }
+}
+
+export default MyComponent;
+```
+
+### MaterialUI
+
+- Google has a large array of prebuilt component for virtually all use cases and is simple to start using in your React app
+
+```
+import React from 'react';
+import Item from '@material-ui/core';
+
+export default const MyItem = () => {
+  <div>
+    <Item>
+      Cool stuff goes here!
+    </Item>
+  </div>
+}
+```
+
 ## Personal Learnings
 
 I learned the advantages of using Node.js, and open-source and cross-platform JavaScript runtime environment, to build a full-stack app. Being able to use JavaScript on both the front and back-end has plenty of advantages, most importantly for me, using one language for multiple purposes. It also uses Googles V8 JavaScript engine to compile code, making implementing code faster and easier than ever. Node.js also has a huge, supportive, and active community that is alwasy working towards improving Node.js itself
 
-I learned the benefits of using GraphQL to access data via an API vs REST. With an eloquent schema, queries can easily and quickly avoid over/under fetching data, making client queries very efficient.
+The benefits of using GraphQL to access data via an API vs REST are clear, and its popularity is rising. With an eloquent schema, queries can easily and quickly avoid over/under fetching data, making client queries very efficient.
 
-I learned that Express.js is an excellent framework for building a web application quickly and efficiently.
+Express.js is an excellent framework for building a web application quickly and efficiently.
 
-I learned that PostgreSQL can be created, altered, or otherwise manipulated with both Terminal using the code `psql` or using a GUI like [Postico](https://eggerapps.at/postico/) or [pgAdmin](https://www.pgadmin.org/download/).
+PostgreSQL can easily be created, altered, or otherwise manipulated with both Terminal using the command `psql` or using a GUI like [Postico](https://eggerapps.at/postico/) or [pgAdmin](https://www.pgadmin.org/download/).
+
+React quickly became the go-to JavaScript library for building apps, and for good reason. The state management, component based ecapsulation, and quick integration with most technology stacks makes it a very approachable and appealing library. Although state-management and hooks are very new to me personally, the idea of controlling components based on data being pass through components, or via context, is exciting.
+
+Material UI has great components and the quick implementation made building this app a breeze. The documentation is well written and comprehensive.
+
+This app had quite a learning curve, especially the client authentication. Hashing and encryption are exciting topics, but very complex. I am excited to see what apps I will get the opportunity to make next!
