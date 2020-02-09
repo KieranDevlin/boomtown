@@ -7,6 +7,7 @@ import {
   withStyles
 } from '@material-ui/core';
 import styles from './styles';
+import PropTypes from 'prop-types';
 
 const FullScreenLoader = ({ classes }) => {
   return (
@@ -19,6 +20,10 @@ const FullScreenLoader = ({ classes }) => {
       </Grid>
     </Fade>
   );
+};
+
+FullScreenLoader.propTypes = {
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(FullScreenLoader);

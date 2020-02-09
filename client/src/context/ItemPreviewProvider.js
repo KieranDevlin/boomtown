@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const ItemPreviewContext = React.createContext();
 
@@ -23,7 +24,6 @@ const ItemPreviewProvider = props => {
     const newItem = { ...item, ...itemInput };
     setItem(newItem);
   };
-
   return (
     <ItemPreviewContext.Provider
       value={{
@@ -37,4 +37,7 @@ const ItemPreviewProvider = props => {
   );
 };
 
+ItemPreviewProvider.propTypes = {
+  children: PropTypes.object.isRequired
+};
 export default ItemPreviewProvider;

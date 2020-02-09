@@ -19,6 +19,7 @@ import BookIcon from '@material-ui/icons/Book';
 import BuildIcon from '@material-ui/icons/Build';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
+import PropTypes from 'prop-types';
 
 class ShareItemForm extends React.Component {
   validate = values => {
@@ -55,7 +56,6 @@ class ShareItemForm extends React.Component {
   render() {
     const refetchQueries = [{ query: VIEWER_QUERY }];
     const { classes, tags } = this.props;
-
     return (
       <Mutation mutation={ADD_ITEM_MUTATION} refetchQueries={refetchQueries}>
         {addItem => (
@@ -258,5 +258,10 @@ class ShareItemForm extends React.Component {
     );
   }
 }
+
+ShareItemForm.propTypes = {
+  classes: PropTypes.object.isRequired,
+  tags: PropTypes.array.isRequired
+};
 
 export default withStyles(styles)(ShareItemForm);

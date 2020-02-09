@@ -21,6 +21,7 @@ import {
 import styles from './styles';
 import { Mutation } from 'react-apollo';
 import { LOGOUT_MUTATION, VIEWER_QUERY } from '../../apollo/queries';
+import PropTypes from 'prop-types';
 
 const ITEM_HEIGHT = 48;
 
@@ -113,6 +114,11 @@ const NavBar = ({ classes, location }) => {
       }}
     </Mutation>
   );
+};
+
+NavBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 export default withRouter(withStyles(styles)(NavBar));

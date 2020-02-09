@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import Gravatar from 'react-gravatar';
 import ItemCard from '../../components/ItemCard';
+import PropTypes from 'prop-types';
 
 const Profile = ({ user, classes }) => {
   return (
@@ -56,5 +57,8 @@ const Profile = ({ user, classes }) => {
     </Container>
   );
 };
-
+Profile.propTypes = {
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+};
 export default withStyles(styles)(Profile);

@@ -2,6 +2,7 @@ import { withStyles, Grid } from '@material-ui/core';
 import React from 'react';
 import styles from './styles';
 import ItemCard from '../ItemCard';
+import PropTypes from 'prop-types';
 
 const ItemsGrid = ({ items }) => {
   return (
@@ -15,4 +16,7 @@ const ItemsGrid = ({ items }) => {
   );
 };
 
+ItemsGrid.propTypes = {
+  items: PropTypes.array.isRequired
+};
 export default withStyles(styles)(ItemsGrid);

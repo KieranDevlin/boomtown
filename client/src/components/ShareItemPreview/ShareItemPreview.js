@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemCard from '../ItemCard';
 import { ItemPreviewContext } from '../../context/ItemPreviewProvider';
+import PropTypes from 'prop-types';
 
 const ShareItemPreview = ({ viewer }) => {
   return (
@@ -10,4 +11,7 @@ const ShareItemPreview = ({ viewer }) => {
   );
 };
 
+ShareItemPreview.propTypes = {
+  viewer: PropTypes.object.isRequired
+};
 export default ShareItemPreview;

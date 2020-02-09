@@ -3,6 +3,7 @@ import { Container, withStyles, Grid } from '@material-ui/core';
 import styles from './styles';
 import ShareItemForm from '../../components/ShareItemForm';
 import ShareItemPreview from '../../components/ShareItemPreview';
+import PropTypes from 'prop-types';
 
 const Share = ({ classes, tags, viewer }) => {
   return (
@@ -18,5 +19,9 @@ const Share = ({ classes, tags, viewer }) => {
     </Container>
   );
 };
-
+Share.propTypes = {
+  classes: PropTypes.object.isRequired,
+  tags: PropTypes.array.isRequired,
+  viewer: PropTypes.object.isRequired
+};
 export default withStyles(styles)(Share);

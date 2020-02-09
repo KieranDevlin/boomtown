@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import Gravatar from 'react-gravatar';
 import styles from './styles';
+import PropTypes from 'prop-types';
 
 const ItemCard = ({ item, classes, viewer }) => {
   return (
@@ -100,6 +101,12 @@ const ItemCard = ({ item, classes, viewer }) => {
       </Card>
     </Zoom>
   );
+};
+
+ItemCard.propTypes = {
+  classes: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
+  viewer: PropTypes.object
 };
 
 export default withStyles(styles)(ItemCard);
