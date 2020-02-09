@@ -114,11 +114,6 @@ class ShareItemForm extends React.Component {
                                 className={classes.fields}
                                 {...input}
                               />
-                              {meta.error && meta.touched && (
-                                <span className={classes.error}>
-                                  {meta.error}
-                                </span>
-                              )}
                             </React.Fragment>
                           )}
                         />
