@@ -1,11 +1,18 @@
 export default function validate(values) {
   const errors = {};
-
-  /**
-   * @TODO: Write the validation rules for the share form.
-   *
-   * An item title, description, and at least one tag is required for all items.
-   */
+  const img = new Image();
+  if (!values.title) {
+    errors.title = 'Required';
+  }
+  if (!values.description) {
+    errors.description = 'Required';
+  }
+  if ((img.src = values.imageurl)) {
+    errors.imageurl = 'Please use a valid URL';
+  }
+  if (!values.tags) {
+    errors.tags = 'At least one tag is required';
+  }
 
   return errors;
 }

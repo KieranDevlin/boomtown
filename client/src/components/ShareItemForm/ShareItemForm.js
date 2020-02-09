@@ -20,20 +20,9 @@ import BuildIcon from '@material-ui/icons/Build';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import PropTypes from 'prop-types';
+import validate from './helpers/validation';
 
 class ShareItemForm extends React.Component {
-  validate = values => {
-    const errors = {};
-
-    if (!values.title) {
-      errors.title = 'Required';
-    }
-    if (!values.description) {
-      errors.description = 'Required';
-    }
-    return errors;
-  };
-
   applyTags = (tags, allTags) => {
     return tags.map(tag => {
       const updatedTag = { title: tag };
@@ -61,7 +50,7 @@ class ShareItemForm extends React.Component {
         {addItem => (
           <ItemPreviewContext.Consumer>
             {({ updatePreview, resetPreview }) => (
-              <Box className={classes.root}>
+              <Box>
                 <Typography variant="h2" style={{ fontWeight: 'bold' }}>
                   Share. Borrow. Prosper.
                 </Typography>
@@ -84,7 +73,7 @@ class ShareItemForm extends React.Component {
                       );
                     }
                   }}
-                  validate={this.validate}
+                  validate={validate.bind(this)}
                   render={({ handleSubmit, pristine }) => {
                     return (
                       <form onSubmit={handleSubmit}>
@@ -108,7 +97,9 @@ class ShareItemForm extends React.Component {
                                 {...input}
                               />
                               {meta.error && meta.touched && (
-                                <span>{meta.error}</span>
+                                <span className={classes.error}>
+                                  {meta.error}
+                                </span>
                               )}
                             </React.Fragment>
                           )}
@@ -124,7 +115,9 @@ class ShareItemForm extends React.Component {
                                 {...input}
                               />
                               {meta.error && meta.touched && (
-                                <span>{meta.error}</span>
+                                <span className={classes.error}>
+                                  {meta.error}
+                                </span>
                               )}
                             </React.Fragment>
                           )}
@@ -141,7 +134,9 @@ class ShareItemForm extends React.Component {
                                 {...input}
                               />
                               {meta.error && meta.touched && (
-                                <span>{meta.error}</span>
+                                <span className={classes.error}>
+                                  {meta.error}
+                                </span>
                               )}
                             </React.Fragment>
                           )}
@@ -151,7 +146,7 @@ class ShareItemForm extends React.Component {
                           <Typography variant="h6">Add Tags:</Typography>
                           <Grid container justify="space-between">
                             <Grid item>
-                              <label className={classes.tagIcons}>
+                              <label className={classes.tagFields}>
                                 <Field
                                   name="tags"
                                   component="input"
@@ -163,7 +158,7 @@ class ShareItemForm extends React.Component {
                               </label>
                             </Grid>
                             <Grid item>
-                              <label className={classes.tagIcons}>
+                              <label className={classes.tagFields}>
                                 <Field
                                   name="tags"
                                   component="input"
@@ -175,7 +170,7 @@ class ShareItemForm extends React.Component {
                               </label>
                             </Grid>
                             <Grid item>
-                              <label className={classes.tagIcons}>
+                              <label className={classes.tagFields}>
                                 <Field
                                   name="tags"
                                   component="input"
@@ -187,7 +182,7 @@ class ShareItemForm extends React.Component {
                               </label>
                             </Grid>
                             <Grid item>
-                              <label className={classes.tagIcons}>
+                              <label className={classes.tagFields}>
                                 <Field
                                   name="tags"
                                   component="input"
@@ -199,7 +194,7 @@ class ShareItemForm extends React.Component {
                               </label>
                             </Grid>
                             <Grid item>
-                              <label className={classes.tagIcons}>
+                              <label className={classes.tagFields}>
                                 <Field
                                   name="tags"
                                   component="input"
@@ -211,7 +206,7 @@ class ShareItemForm extends React.Component {
                               </label>
                             </Grid>
                             <Grid item>
-                              <label className={classes.tagIcons}>
+                              <label className={classes.tagFields}>
                                 <Field
                                   name="tags"
                                   component="input"
@@ -223,7 +218,7 @@ class ShareItemForm extends React.Component {
                               </label>
                             </Grid>
                             <Grid item>
-                              <label className={classes.tagIcons}>
+                              <label className={classes.tagFields}>
                                 <Field
                                   name="tags"
                                   component="input"
@@ -234,6 +229,18 @@ class ShareItemForm extends React.Component {
                                 <BookIcon />
                               </label>
                             </Grid>
+                            <Field
+                              name="tags"
+                              render={({ input, meta }) => (
+                                <React.Fragment>
+                                  {meta.error && meta.touched && (
+                                    <span className={classes.error}>
+                                      {meta.error}
+                                    </span>
+                                  )}
+                                </React.Fragment>
+                              )}
+                            />
                           </Grid>
                         </Box>
                         <Button

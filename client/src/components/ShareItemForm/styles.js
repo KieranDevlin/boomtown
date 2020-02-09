@@ -1,6 +1,6 @@
 const styles = theme => ({
-  root: {
-    // width: '40%'
+  error: {
+    color: 'red'
   },
   fields: {
     width: '100%',
@@ -8,6 +8,10 @@ const styles = theme => ({
   },
   submitBtn: {
     diplay: 'block'
+  },
+  tagFields: {
+    display: 'flex',
+    alignItems: 'center'
   }
 });
 
