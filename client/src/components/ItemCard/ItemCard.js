@@ -20,13 +20,25 @@ const ItemCard = ({ item, classes, viewer, location }) => {
   return (
     <Zoom in={true}>
       <Card className={classes.card} raised>
-        <Link
-          to={`/profile/${
-            viewer ? viewer.id : item && item.itemowner && item.itemowner.id
-          }`}
-          color="secondary"
-          underline="none"
-        >
+        {location.pathname === '/items' ? (
+          <Link
+            to={`/profile/${
+              viewer ? viewer.id : item && item.itemowner && item.itemowner.id
+            }`}
+            color="secondary"
+            underline="none"
+          >
+            <CardMedia
+              component="img"
+              src={
+                item && item.imageurl
+                  ? item.imageurl
+                  : 'http://via.placeholder.com/350x250?text=No+image'
+              }
+              className={classes.media}
+            />
+          </Link>
+        ) : (
           <CardMedia
             component="img"
             src={
@@ -36,7 +48,7 @@ const ItemCard = ({ item, classes, viewer, location }) => {
             }
             className={classes.media}
           />
-        </Link>
+        )}
         <CardContent className={classes.innerCard}>
           <Box className={classes.itemInfoContainer}>
             <Gravatar
