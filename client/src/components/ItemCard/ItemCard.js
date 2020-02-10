@@ -1,7 +1,7 @@
 import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
   Button,
   Box,
@@ -16,7 +16,7 @@ import Gravatar from 'react-gravatar';
 import styles from './styles';
 import PropTypes from 'prop-types';
 
-const ItemCard = ({ item, classes, viewer }) => {
+const ItemCard = ({ item, classes, viewer, location }) => {
   return (
     <Zoom in={true}>
       <Card className={classes.card} raised>
@@ -92,11 +92,13 @@ const ItemCard = ({ item, classes, viewer }) => {
             <Typography>{item && item.description}</Typography>
           </CardContent>
 
-          <CardActions className={classes.buttonContainer}>
-            <Button variant="outlined" size="medium" color="secondary">
-              Borrow
-            </Button>
-          </CardActions>
+          {location.pathname === '/items' && (
+            <CardActions className={classes.buttonContainer}>
+              <Button variant="outlined" size="medium" color="secondary">
+                Borrow
+              </Button>
+            </CardActions>
+          )}
         </CardContent>
       </Card>
     </Zoom>
@@ -109,4 +111,4 @@ ItemCard.propTypes = {
   viewer: PropTypes.object
 };
 
-export default withStyles(styles)(ItemCard);
+export default withRouter(withStyles(styles)(ItemCard));
