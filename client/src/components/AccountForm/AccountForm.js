@@ -30,6 +30,7 @@ class AccountForm extends Component {
   render() {
     const { classes, loginMutation, signupMutation } = this.props;
     const error = this.state.error;
+    console.log(this.state.error && this.state.error.message);
     return (
       <Form
         onSubmit={values => {
@@ -145,7 +146,8 @@ class AccountForm extends Component {
                   !this.state.formToggle &&
                   this.state.error.graphQLErrors.message)}
             </Typography>
-            {error && <span>Invalid Email or Password</span>}
+            <span>{this.state.error && this.state.error.message}</span>
+            {/* {error && <span>Invalid Email or Password</span>} */}
           </form>
         )}
       />

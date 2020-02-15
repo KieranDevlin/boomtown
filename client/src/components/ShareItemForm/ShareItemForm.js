@@ -8,6 +8,7 @@ import {
   TextField
 } from '@material-ui/core';
 import styles from './styles';
+import { Redirect } from 'react-router-dom';
 import { Form, Field, FormSpy } from 'react-final-form';
 import { ItemPreviewContext } from '../../context/ItemPreviewProvider';
 import { Mutation } from 'react-apollo';
@@ -23,6 +24,14 @@ import PropTypes from 'prop-types';
 import validate from './helpers/validation';
 
 class ShareItemForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      submitted: false
+    };
+  }
+
   applyTags = (tags, allTags) => {
     return tags.map(tag => {
       const updatedTag = { title: tag };
@@ -43,6 +52,9 @@ class ShareItemForm extends React.Component {
   };
 
   render() {
+    if (this.state.submitted === true) {
+      return <Redirect to="/profile" />;
+    }
     const refetchQueries = [{ query: VIEWER_QUERY }];
     const { classes, tags } = this.props;
     return (
@@ -67,6 +79,7 @@ class ShareItemForm extends React.Component {
                         }
                       });
                       resetPreview();
+                      this.setState({ submitted: !this.state.submitted });
                     } catch (e) {
                       throw new Error(
                         `There was an error adding your item.  + ${e}`
@@ -238,6 +251,7 @@ class ShareItemForm extends React.Component {
                             />
                           </Grid>
                         </Box>
+
                         <Button
                           className={classes.submitBtn}
                           type="submit"
