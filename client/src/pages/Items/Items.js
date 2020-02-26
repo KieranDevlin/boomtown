@@ -1,14 +1,14 @@
 import React from 'react';
-import { Box, withStyles } from '@material-ui/core/';
+import { Container, withStyles, Container } from '@material-ui/core/';
 import styles from './styles';
 import ItemsGrid from '../../components/ItemsGrid';
 import PropTypes from 'prop-types';
 
 const Items = ({ classes, items }) => {
   return (
-    <Box className={classes.root}>
+    <Container maxWidth="xl" className={classes.root}>
       <ItemsGrid items={items} />
-    </Box>
+    </Container>
   );
 };
 

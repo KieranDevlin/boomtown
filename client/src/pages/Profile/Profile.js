@@ -14,9 +14,9 @@ import PropTypes from 'prop-types';
 
 const Profile = ({ user, classes, viewer }) => {
   return (
-    <Container className={classes.root}>
+    <Container maxWidth="xl" className={classes.root}>
       <Card className={classes.profileMain}>
-        <Box className={classes.user} xs={12}>
+        <Container className={classes.user} xs={12}>
           <Gravatar
             email={user.email}
             size={70}
@@ -25,7 +25,7 @@ const Profile = ({ user, classes, viewer }) => {
             className={classes.customGravatar}
           />
           <Typography variant="h4">{user.fullname}</Typography>
-        </Box>
+        </Container>
         <Typography variant="h6">
           <span className={classes.profileNumbers}>
             {user.items.length}&nbsp;
@@ -43,7 +43,7 @@ const Profile = ({ user, classes, viewer }) => {
         )}
       </Card>
       {user.items.length ? (
-        <Box className={classes.sharedItems}>
+        <Container className={classes.sharedItems}>
           <Typography variant="h4" color="primary">
             Shared Items
           </Typography>
@@ -55,10 +55,10 @@ const Profile = ({ user, classes, viewer }) => {
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </Container>
       ) : null}
       {user.borrowed.length ? (
-        <Box className={classes.sharedItems}>
+        <Container className={classes.sharedItems}>
           <Typography variant="h4" color="primary">
             Borrowed Items
           </Typography>
@@ -70,7 +70,7 @@ const Profile = ({ user, classes, viewer }) => {
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </Container>
       ) : null}
     </Container>
   );

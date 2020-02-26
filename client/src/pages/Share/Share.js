@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const Share = ({ classes, tags, viewer }) => {
   return (
-    <Container className={classes.root}>
+    <Container maxWidth="xl" className={classes.root}>
       <Grid container spacing={6} justify="space-evenly">
         <Grid item xs={5} md={5} lg={5}>
           <ShareItemPreview viewer={viewer} />

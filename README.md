@@ -51,7 +51,7 @@ This application is built with a relational database - PostgreSQL - that contain
 - We have a small database - normalization reduces redundancies and the relationships are not complex
 - Our transactions and queries will execute quickly because of the simplicity of the relational connections
 
-![Boomtown Physical Model](boomtown-db-physical-model.png)
+![Boomtown Physical Model](./client/public/boomtown-db-physical-model.png)
 
 ## Technologies Used
 
@@ -138,7 +138,7 @@ graphql(schema, '{ hello }', root).then((response) => {
 
 A basic schema and query using GraphQL from [Graphql's](https://graphql.org/graphql-js/) website
 
-![GraphQL mutation example](graphql-example.png)
+![GraphQL mutation example](./client/public/graphql-example.png)
 `GraphQl Playground`
 
 ### React
