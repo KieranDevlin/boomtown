@@ -111,6 +111,13 @@ const ItemCard = ({ item, classes, viewer, location }) => {
               </Button>
             </CardActions>
           )}
+          {location.pathname === '/profile' && viewer.id === item.itemowner.id && (
+            <CardActions className={classes.buttonContainer}>
+              <Button variant="outlined" size="medium" color="secondary">
+                Remove
+              </Button>
+            </CardActions>
+          )}
         </CardContent>
       </Card>
     </Zoom>

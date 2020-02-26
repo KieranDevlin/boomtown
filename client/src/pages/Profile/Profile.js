@@ -12,7 +12,7 @@ import Gravatar from 'react-gravatar';
 import ItemCard from '../../components/ItemCard';
 import PropTypes from 'prop-types';
 
-const Profile = ({ user, classes }) => {
+const Profile = ({ user, classes, viewer }) => {
   return (
     <Container className={classes.root}>
       <Card className={classes.profileMain}>
@@ -42,18 +42,36 @@ const Profile = ({ user, classes }) => {
           <Typography>"No user bio"</Typography>
         )}
       </Card>
-      <Box className={classes.sharedItems}>
-        <Typography variant="h4" color="primary">
-          Shared Items
-        </Typography>
-        <Grid container spacing={6}>
-          {user.items.map(item => (
-            <Grid item key={item.id} sm={12} md={6} lg={4}>
-              <ItemCard item={item} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      {user.items.length ? (
+        <Box className={classes.sharedItems}>
+          <Typography variant="h4" color="primary">
+            Shared Items
+          </Typography>
+
+          <Grid container spacing={6}>
+            {user.items.map(item => (
+              <Grid item key={item.id} sm={12} md={6} lg={4}>
+                <ItemCard item={item} viewer={viewer} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      ) : null}
+      {user.borrowed.length ? (
+        <Box className={classes.sharedItems}>
+          <Typography variant="h4" color="primary">
+            Borrowed Items
+          </Typography>
+
+          <Grid container spacing={6}>
+            {user.borrowed.map(item => (
+              <Grid item key={item.id} sm={12} md={6} lg={4}>
+                <ItemCard item={item} viewer={viewer} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      ) : null}
     </Container>
   );
 };

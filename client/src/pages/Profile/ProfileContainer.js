@@ -23,7 +23,7 @@ class ProfileContainer extends Component {
                 const { user } = data;
                 if (loading) return <FullScreenLoader />;
                 if (error) return `Error! ${error.message}`;
-                if (data) return <Profile user={user} />;
+                if (data) return <Profile user={user} viewer={viewer} />;
               }}
             </Query>
           );
